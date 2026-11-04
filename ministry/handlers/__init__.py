@@ -1,9 +1,14 @@
+import logging
+
 from telegram import Bot, BotCommand, BotCommandScopeChat
+from telegram.error import BadRequest
 from telegram.ext import Application, CommandHandler, MessageHandler, filters
 
 from ministry import texts
 from ministry.constants import OWNER_ID
 from ministry.handlers import characters, dates, general, gifts
+
+logger = logging.getLogger(__name__)
 
 COMMAND_HANDLERS = {
     "start": general.start,
@@ -44,7 +49,16 @@ async def setup_bot_commands(bot: Bot) -> None:
     await bot.set_my_commands(commands)
 
     if OWNER_ID is not None:
-        await bot.set_my_commands(
-            commands + _bot_commands(texts.OWNER_COMMAND_DESCRIPTIONS),
-            scope=BotCommandScopeChat(chat_id=OWNER_ID),
-        )
+        try:
+            await bot.set_my_commands(
+                commands + _bot_commands(texts.OWNER_COMMAND_DESCRIPTIONS),
+                scope=BotCommandScopeChat(chat_id=OWNER_ID),
+            )
+        except BadRequest as error:
+            # Telegram only knows the chat once the owner has sent /start to this bot.
+            logger.warning(
+                "Could not set owner commands for OWNER_ID=%s: %s. "
+                "Check the ID and send /start to the bot from that account.",
+                OWNER_ID,
+                error,
+            )
