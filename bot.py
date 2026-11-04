@@ -19,7 +19,12 @@ from telegram.ext import (
 )
 
 
-from config import TOKEN
+import os
+
+TOKEN = os.getenv("TOKEN")
+
+if not TOKEN:
+    from config import TOKEN
 
 OWNER_ID = 1655804253
 
