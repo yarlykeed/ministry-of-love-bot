@@ -27,6 +27,9 @@ Telegram-бот для групповых чатов, который работ�
 
 ### 2а. Через Docker (рекомендуется)
 
+Если Docker на Windows ещё не установлен, начните с раздела
+[Установка Docker в Windows](#установка-docker-в-windows).
+
 ```sh
 docker compose up -d --build
 docker compose logs -f bot
@@ -52,6 +55,99 @@ python bot.py
 На один токен запускайте только одну копию бота. Telegram разрешает
 только одного клиента long polling, поэтому локальная копия и копия в
 Docker, запущенные одновременно, будут отбирать друг у друга обновления.
+
+## Установка Docker в Windows
+
+Docker в Windows работает поверх WSL 2 (Windows Subsystem for Linux).
+Нужна 64-битная Windows 10 22H2 или Windows 11 и права администратора.
+
+### 1. Проверьте, что включена виртуализация
+
+Откройте Диспетчер задач → Производительность → ЦП и найдите строку
+**Виртуализация: Включено**. Если там «Отключено», включите Intel VT-x
+или AMD-V (SVM) в настройках BIOS/UEFI.
+
+### 2. Установите WSL 2
+
+Откройте PowerShell **от имени администратора** и выполните:
+
+```powershell
+wsl --install
+```
+
+Команда включит нужные компоненты Windows, установит ядро WSL 2 и
+дистрибутив Ubuntu. Когда попросит, перезагрузите компьютер.
+
+После перезагрузки Ubuntu откроется сама (или запустите её из меню
+«Пуск») и попросит придумать имя пользователя и пароль Linux. Они не
+связаны с учётной записью Windows; пароль запомните, его будет
+спрашивать `sudo`.
+
+Проверьте результат:
+
+```powershell
+wsl --update
+wsl -l -v
+```
+
+В колонке `VERSION` у Ubuntu должно быть `2`. Если там `1`, выполните
+`wsl --set-version Ubuntu 2`.
+
+### 3. Установите Docker Desktop
+
+1. Скачайте Docker Desktop для Windows со страницы
+   [docs.docker.com/desktop/setup/install/windows-install](https://docs.docker.com/desktop/setup/install/windows-install/)
+   и запустите установщик.
+2. Оставьте включённым пункт **Use WSL 2 instead of Hyper-V**.
+3. После установки выйдите из учётной записи Windows и войдите снова
+   (или перезагрузитесь).
+4. Запустите Docker Desktop и примите лицензию. Входить в аккаунт Docker
+   не обязательно.
+5. Чтобы `docker` работал и из терминала Ubuntu, откройте Settings →
+   Resources → WSL integration и включите Ubuntu.
+
+Docker Desktop бесплатен для личного использования, обучения и небольших
+компаний (меньше 250 сотрудников и меньше $10 млн выручки). Крупным
+компаниям нужна платная подписка; если это ваш случай, смотрите вариант
+ниже.
+
+### 4. Проверьте, что Docker работает
+
+В PowerShell (Docker Desktop должен быть запущен):
+
+```powershell
+docker --version
+docker compose version
+docker run --rm hello-world
+```
+
+Если `hello-world` вывел «Hello from Docker!», всё готово. Перейдите в
+папку проекта и продолжайте с [шага 2а](#2а-через-docker-рекомендуется).
+
+### Другой вариант: Docker Engine внутри WSL, без Docker Desktop
+
+После шага 2 откройте терминал Ubuntu и выполните:
+
+```sh
+curl -fsSL https://get.docker.com | sudo sh
+sudo usermod -aG docker $USER
+```
+
+Закройте терминал, выполните `wsl --shutdown` в PowerShell, снова
+откройте Ubuntu и проверьте: `docker run --rm hello-world`. В этом
+варианте все команды `docker` запускаются из Ubuntu, а не из
+PowerShell. Диски Windows лежат в `/mnt`, например `C:\fundev` — это
+`/mnt/c/fundev`, но сборка идёт быстрее, если склонировать проект в
+домашнюю папку Linux (`~`).
+
+Если `docker` не может подключиться к демону, возможно, выключен
+systemd. Добавьте в `/etc/wsl.conf` в Ubuntu эти строки, затем выполните
+`wsl --shutdown` и снова откройте Ubuntu:
+
+```ini
+[boot]
+systemd=true
+```
 
 ## Как пользоваться в чате
 
