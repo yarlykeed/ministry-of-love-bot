@@ -2,7 +2,7 @@ from telegram import Update
 from telegram.ext import ContextTypes
 
 from ministry import texts
-from ministry.config import OWNER_ID
+from ministry.constants import OWNER_ID
 from ministry.db import SessionLocal
 from ministry.models import GiftsMode
 from ministry.services.chats import get_or_create_chat

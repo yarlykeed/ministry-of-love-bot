@@ -2,7 +2,7 @@ from telegram import Bot, BotCommand, BotCommandScopeChat
 from telegram.ext import Application, CommandHandler, MessageHandler, filters
 
 from ministry import texts
-from ministry.config import OWNER_ID
+from ministry.constants import OWNER_ID
 from ministry.handlers import characters, dates, general, gifts
 
 COMMAND_HANDLERS = {

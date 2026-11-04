@@ -3,7 +3,7 @@ import logging
 from telegram.ext import Application, ContextTypes
 
 from ministry import texts
-from ministry.config import TELEGRAM_TOKEN
+from ministry.constants import TELEGRAM_TOKEN
 from ministry.db import init_db
 from ministry.handlers import register_handlers, setup_bot_commands
 

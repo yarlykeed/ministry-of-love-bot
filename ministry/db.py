@@ -5,7 +5,7 @@ from sqlalchemy import Engine, create_engine as sa_create_engine, event
 from sqlalchemy.engine import make_url
 from sqlalchemy.orm import sessionmaker
 
-from ministry.config import DATABASE_URL
+from ministry.constants import DATABASE_URL
 from ministry.models import Base
 
 

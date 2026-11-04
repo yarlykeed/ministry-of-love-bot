@@ -4,7 +4,7 @@ from telegram import Update
 from telegram.ext import ContextTypes
 
 from ministry import texts
-from ministry.config import PAIR_TIMEZONE
+from ministry.constants import PAIR_TIMEZONE
 from ministry.db import SessionLocal
 from ministry.handlers.common import command_argument, send_date
 from ministry.services import dates
