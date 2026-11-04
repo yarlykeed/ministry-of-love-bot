@@ -1,5 +1,7 @@
 # Ministry of Love bot
 
+[Русская версия](README.ru.md)
+
 A Telegram bot for group chats that plays matchmaker. Members add
 characters (people from the chat, fictional heroes, anyone), and the bot
 picks a "pair of the day", makes up random dates and finds a match for a
