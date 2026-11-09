@@ -1,7 +1,13 @@
 meta:
   environment: docker
-  tool: dockerfile
+  toolchain:
+    name: docker
+    version: latest
 build:
   dockerfile: Dockerfile
+  skip: false
 run:
-  persistence: []
+  persistenceMount: /data
+  containerPort: "80"
+  singleton: true
+  zeroDowntime: false
