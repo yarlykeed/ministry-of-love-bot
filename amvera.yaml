@@ -1,0 +1,7 @@
+meta:
+  environment: docker
+  tool: dockerfile
+build:
+  dockerfile: Dockerfile
+run:
+  persistence: []
