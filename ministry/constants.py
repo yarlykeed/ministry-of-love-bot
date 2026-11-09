@@ -13,7 +13,7 @@ _owner_id = os.getenv("OWNER_ID", "").strip()
 OWNER_ID = int(_owner_id) if _owner_id else None
 
 DATABASE_URL = os.getenv(
-    "DATABASE_URL", "sqlite:///data/committee.db"
+    "DATABASE_URL", "sqlite:////data/committee.db"
 )
 
 # The daily pair changes at midnight Moscow time.
