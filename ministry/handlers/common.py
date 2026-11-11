@@ -19,10 +19,10 @@ def numbered_list(header: str, items: Iterable[str]) -> str:
 async def send_date(message: Message, result: DateResult) -> None:
     """Replies with the date text, attaching the characters' photos if any."""
     if len(result.photos) >= 2:
-        first, second = result.photos[:2]
+        first, *rest = result.photos
         await message.reply_media_group(media=[
             InputMediaPhoto(media=first, caption=result.text),
-            InputMediaPhoto(media=second),
+            *(InputMediaPhoto(media=photo) for photo in rest),
         ])
     elif result.photos:
         await message.reply_photo(photo=result.photos[0], caption=result.text)

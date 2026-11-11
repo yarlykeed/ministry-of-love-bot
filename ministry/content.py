@@ -47,6 +47,14 @@ GIFT_PHRASES = (
 SELF_DATE_CHANCE = 0.1
 STAY_HOME_CHANCE = 0.1
 
+# Controlled randomness of /random: a scenario can come up this many times
+# and a character this many times before sitting out until the round resets.
+SCENARIO_ROLL_LIMIT = 2
+CHARACTER_ROLL_LIMIT = 3
+# A new scenario round starts once fewer than this many scenarios are left,
+# so the last ones of a round don't become predictable.
+MIN_FRESH_SCENARIOS = 3
+
 
 @dataclass(frozen=True)
 class DateScenario:
